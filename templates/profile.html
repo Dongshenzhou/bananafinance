@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h1>Profile</h1>
+    <p>Username:{{user.username}}</p>
+    <p>First Name:{{user.first_name}}</p>
+    <p>Last Name:{{user.last_name}}</p>
+    <p>Gender:{{user.gender}}</p>
+    <p>Birthday:{{user.DOB}}</p>
+    <p>Email:{{user.email}}</p>
+    <p>Register On:{{user.register_date}}</p>
+    {% if current_user == user.username %}
+        <a href="/edit_profile/{{current_user}}" class="btn btn-default pull-right">Edit</a>
+    {% endif %}
+{% endblock %}

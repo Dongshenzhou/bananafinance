@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <h2>{{ quote['symbol'] }} <span>{{ quote['latestPrice'] }}</span></h2>
+            <h3>{{ quote['companyName'] }}</h3>
+
+            <div>
+                <div class="col">
+                    <div class="col">
+                        <ul class="list-group">
+                            <li class="list-group-item">Price:</li>
+                            <li class="list-group-item">Open:</li>
+                            <li class="list-group-item">High:</li>
+                            <li class="list-group-item">Low:</li>
+                        </ul>
+
+                    </div>
+                    <div class="col">
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="col">
+
+                    </div>
+                    <div class="col">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+{% endblock %}

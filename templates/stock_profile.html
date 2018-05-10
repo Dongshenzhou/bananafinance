@@ -1,0 +1,166 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <h1>{{ quote.symbol }}</h1>
+        <h2>{{ quote.companyName }}</h2>
+    </div>
+    <div class="row">
+        <div class="col-lg-5">
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home"><h4>Keystats</h4></a></li>
+            <li><a data-toggle="tab" href="#menu1"><h4>Company</h4></a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                {% for i in ["latestPrice","change","changePercent","open","previousClose","low","high","peRatio","week52High","week52Low"] %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-7"><h4>{{ i }}:</h4></div>
+                        <div class="col-sm-5"><h4>{{ quote[i] }}</h4></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div id="menu1" class="tab-pane fade">
+                {% for i in ['companyName', 'symbol', 'exchange', 'CEO','sector','industry','description','website'] %}
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-5"><h4>{{ i }}:</h4></div>
+                        <div class="col-sm-7"><h4>{{ company[i] }}</h4></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+            <div class = row>
+                <canvas id="1dChart_price", width="750", height="500">One day price trace</canvas>
+            </div>
+            <div class = row>
+                <canvas id="1dChart_volume", width="750", height="250">One day price trace</canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{#<script>#}
+{#new Chart(document.getElementById("1dChart_volume"), {#}
+{#    type: 'bar',#}
+{#    data: {#}
+{#      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],#}
+{#      datasets: [#}
+{#        {#}
+{#          label: "Population (millions)",#}
+{#          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],#}
+{#          data: [2478,5267,734,784,433]#}
+{#        }#}
+{#      ]#}
+{#    },#}
+{#    options: {#}
+{#      legend: { display: false },#}
+{#      title: {#}
+{#        display: true,#}
+{#        text: 'Predicted world population (millions) in 2050'#}
+{#      }#}
+{#    }#}
+{#{);#}
+{##}
+{#</script>#}
+
+
+{#<script>#}
+{#    Chart.defaults.global.responsive = true;#}
+{#    var xlabel = [{% for item in labels %}#}
+{#                 "{{item}}",#}
+{#                {% endfor %}]#}
+{#    var barchartData = {#}
+{#        labels: xlabel,#}
+{#        datasets: [{#}
+{#            label: 'volume',#}
+{#            fillColor: "rgba(220,220,220,0.5)",#}
+{#            backgroundColor: 'red',#}
+{#            strokeColor: "rgba(220,220,220,0.8)",#}
+{#            highlightFill: "rgba(220,220,220,0.75)",#}
+{#            highlightStroke: "rgba(220,220,220,1)",#}
+{#            data : [{% for item in values.volumes %}#}
+{#                    {{item}},#}
+{#                    {% endfor %}],#}
+{#        }]#}
+{#    }#}
+{#    var ctxBar = document.getElementById("1dChart_volume").getContext("2d")#}
+{#    var myBarChart = new Chart(ctxBar, {#}
+{#        type: "bar",#}
+{#        data: barchartData#}
+{#    });#}
+{#</script>#}
+<script>
+    Chart.defaults.global.responsive = true;
+    var xlabel = [{% for item in labels %}
+                 "{{item}}",
+                {% endfor %}]
+    // define the chart data
+    var linechartData = {
+      labels : xlabel,
+      datasets : [{
+          label: '{{ legend }}',
+          fill: true,
+          lineTension: 0,
+          backgroundColor: "rgba(89,192,192,0.4)",
+          borderColor: "rgba(75,192,192,1)",
+          borderCapStyle: 'butt',
+          borderDash: [],
+          borderDashOffset: 0.1,
+          borderJoinStyle: 'miter',
+          pointBorderColor: "rgba(75,192,192,1)",
+          pointBackgroundColor: "#fff",
+          pointBorderWidth: 1,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: "rgba(75,192,192,1)",
+          pointHoverBorderColor: "rgba(220,220,220,1)",
+          pointHoverBorderWidth: 2,
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data : [{% for item in values.prices %}
+                    {{item}},
+                  {% endfor %}],
+          options:{
+            legend:{
+                display: false
+            }
+          },
+          spanGaps: false
+      }]
+    }
+    //define the barchart data
+    var  barchartData = {
+        labels: xlabel,
+        datasets: [{
+            label: 'volume',
+            backgroundColor: '#00ff57',
+            fillColor: "rgba(220,220,220,0.5)",
+            strokeColor: "rgba(220,220,220,0.8)",
+            highlightFill: "rgba(220,220,220,0.75)",
+            highlightStroke: "rgba(220,220,220,1)",
+            data : [{% for item in values.volumes %}
+                    {{item}},
+                    {% endfor %}],
+        }]
+    }
+
+    // get chart canvas
+    var ctxLine = document.getElementById("1dChart_price").getContext("2d");
+    var ctxBar = document.getElementById("1dChart_volume").getContext("2d")
+
+    // create the chart using the chart canvas
+    var myLineChart = new Chart(ctxLine, {
+      type: 'line',
+      data: linechartData,
+    });
+    var myBarChart = new Chart(ctxBar, {
+        type: "bar",
+        data: barchartData})
+</script>
+{% endblock %}

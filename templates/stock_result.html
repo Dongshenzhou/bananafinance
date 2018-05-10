@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <h1>stocks</h1>
+    {% if stocklist %}
+        <ul class="list-group">
+        {% for stock in stocklist %}
+            <li class="list-group-item"><a href="/stock/{{ stock.stock_symbol }}">{{ stock.stock_symbol }}</a>  <span>{{ stock.stock_name }}</span></li>
+        {% endfor %}
+        </ul>
+    {%else%}
+        No result to show
+    {% endif %}
+{% endblock %}

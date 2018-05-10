@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <h2>Search Result</h2>
+    {% if followed %}
+       <p>{{followed}}</p>
+       <p>{{result}}</p>
+    {%endif%}
+    {% if result %}
+       {% for user in result %}
+            <tr><a href="{{ url_for('profile',username = user.username )}}" >
+                    {{ user.first_name }} {{ user.last_name }} </a></tr>
+                    <form method="POST" action="/user_result">
+                        <input type="hidden" name="idol" value={{user.id}}>
+                        <p><input type="submit" name="submit" class="btn btn-primary" value="Unfollow"></p>
+                    </form>
+        {% endfor %}
+    {%else%}
+        No result to show
+    {% endif %}
+{% endblock %}

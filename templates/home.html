@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="jumbotron text-center">
+    <h1>Welcome To BananaFinance</h1>
+    <p class="lead">This application is built on the Python Flask framework and is the focus for Project 3: Portfolio Management System</p>
+    {% if session.logged_in == NULL %}
+      <a href="/register" class="btn btn-primary btn-lg">Register</a>
+      <a href="/login" class="btn btn-success btn-lg">Login</a>
+    {% endif %}
+  </div>
+  <div>
+      <form method="POST" action="">
+        <div class="form-group">
+          <input class="form-control" name="stock" type="stock">
+        </div>
+        <p><input type="submit" class="btn btn-primary" value="Search"></p>
+      </form>
+  </div>
+{% endblock %}
